@@ -86,6 +86,10 @@ bunx @modelcontextprotocol/inspector bun run src/index.ts
 2. コード変更 → Inspector 再接続
 3. 変更した機能をテスト、ログを確認
 
+## Publishing
+
+GitHub Actions の `Publish to npm` ワークフローで公開。`bun publish` を使用。
+
 ## Conventions
 
 - stdio モードではコンソール出力禁止（stdin/stdout が MCP 通信に使われるため）
