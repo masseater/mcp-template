@@ -4,9 +4,9 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { Hono } from "hono";
-import { greetingPrompt } from "./mcps/prompts/greeting.ts";
-import { serverInfoResource } from "./mcps/resources/server-info.ts";
-import { echoTool } from "./mcps/tools/echo.ts";
+import { prompts } from "@/mcps/prompts";
+import { resources } from "@/mcps/resources";
+import { tools } from "@/mcps/tools";
 
 function createServer() {
   const server = new McpServer({
@@ -14,39 +14,9 @@ function createServer() {
     version: "0.0.1",
   });
 
-  // Register tools
-  server.registerTool(
-    echoTool.name,
-    {
-      title: echoTool.title,
-      description: echoTool.description,
-      inputSchema: echoTool.inputSchema,
-    },
-    echoTool.handler,
-  );
-
-  // Register resources
-  server.registerResource(
-    serverInfoResource.name,
-    serverInfoResource.uri,
-    {
-      title: serverInfoResource.title,
-      description: serverInfoResource.description,
-      mimeType: serverInfoResource.mimeType,
-    },
-    serverInfoResource.handler,
-  );
-
-  // Register prompts
-  server.registerPrompt(
-    greetingPrompt.name,
-    {
-      title: greetingPrompt.title,
-      description: greetingPrompt.description,
-      argsSchema: greetingPrompt.argsSchema,
-    },
-    greetingPrompt.handler,
-  );
+  tools.forEach((tool) => tool.register(server));
+  resources.forEach((resource) => resource.register(server));
+  prompts.forEach((prompt) => prompt.register(server));
 
   return server;
 }

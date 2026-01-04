@@ -1,6 +1,7 @@
+import { definePrompt } from "@/mcps/define.ts";
 import { z } from "zod";
 
-export const greetingPrompt = {
+export const greetingPrompt = definePrompt({
   name: "greeting",
   title: "Greeting",
   description: "Generates a greeting message for a given name",
@@ -34,4 +35,4 @@ export const greetingPrompt = {
       ],
     };
   },
-} as const;
+});

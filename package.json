@@ -16,13 +16,14 @@
     "build": "tsup",
     "check": "biome check .",
     "check:fix": "biome check --write .",
-    "typecheck": "bun run build --dts-only",
+    "typecheck": "tsgo --noEmit",
     "test": "bun test",
     "prepublishOnly": "bun run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
     "@types/bun": "latest",
+    "@typescript/native-preview": "^7.0.0-dev.20260103.1",
     "tsup": "^8.5.1"
   },
   "peerDependencies": {
@@ -39,6 +40,5 @@
     "model-context-protocol",
     "ai",
     "claude"
-  ],
-  "license": "MIT"
+  ]
 }

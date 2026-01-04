@@ -1,4 +1,6 @@
-export const serverInfoResource = {
+import { defineResource } from "@/mcps/define.ts";
+
+export const serverInfoResource = defineResource({
   name: "server-info",
   uri: "info://server",
   title: "Server Info",
@@ -21,4 +23,4 @@ export const serverInfoResource = {
       ],
     };
   },
-} as const;
+});
