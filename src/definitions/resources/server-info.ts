@@ -1,4 +1,4 @@
-import { defineResource } from "@/mcps/define.ts";
+import { defineResource } from "@/definitions/define.ts";
 
 export const serverInfoResource = defineResource({
   name: "server-info",

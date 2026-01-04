@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "@/mcps/define.ts";
+import { defineTool } from "@/definitions/define.ts";
 
 export const echoTool = defineTool({
   name: "echo",

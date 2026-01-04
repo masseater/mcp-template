@@ -4,9 +4,9 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { Hono } from "hono";
-import { prompts } from "@/mcps/prompts";
-import { resources } from "@/mcps/resources";
-import { tools } from "@/mcps/tools";
+import { prompts } from "@/definitions/prompts";
+import { resources } from "@/definitions/resources";
+import { tools } from "@/definitions/tools";
 
 function createServer() {
   const server = new McpServer({
