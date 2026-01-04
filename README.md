@@ -23,8 +23,8 @@ Add to your Claude Desktop config (`~/.config/claude/claude_desktop_config.json`
 {
   "mcpServers": {
     "mcp-template": {
-      "command": "bun",
-      "args": ["run", "/path/to/mcp-template/src/index.ts"]
+      "command": "bunx",
+      "args": ["mcp-template"]
     }
   }
 }
@@ -49,9 +49,6 @@ Add to your Claude Desktop config (`~/.config/claude/claude_desktop_config.json`
 ```bash
 bun run check      # Lint & format check
 bun run check:fix  # Auto fix
+bun run typecheck  # Type check (tsgo)
 bun run build      # Build for production
 ```
-
-## License
-
-MIT
