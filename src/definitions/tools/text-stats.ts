@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { analyzeText, formatStats } from "@/features/text-stats/text-stats";
 import { defineTool } from "@/definitions/define";
+import { analyzeText, formatStats } from "@/features/text-stats/text-stats";
 
 export const textStatsTool = defineTool({
   name: "text-stats",

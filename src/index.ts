@@ -1,6 +1,6 @@
+import { StreamableHTTPTransport } from "@hono/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { StreamableHTTPTransport } from "@hono/mcp";
 import { Hono } from "hono";
 import { prompts } from "@/definitions/prompts";
 import { resources } from "@/definitions/resources";
@@ -52,7 +52,9 @@ if (process.env.HTTP === "1") {
     port: 0,
     fetch: app.fetch,
   });
-  console.error(`MCP server listening on http://localhost:${httpServer.port}/mcp`);
+  console.error(
+    `MCP server listening on http://localhost:${httpServer.port}/mcp`,
+  );
 } else {
   await runStdio();
 }
