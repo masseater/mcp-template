@@ -1,7 +1,11 @@
 {
-  "name": "mcp-template",
+  "name": "@r_masseater/mcp-template",
   "version": "0.0.1",
   "description": "MCP サーバー開発のための汎用テンプレート",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/masseater/mcp-template"
+  },
   "type": "module",
   "main": "dist/index.js",
   "bin": {

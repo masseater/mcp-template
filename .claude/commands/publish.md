@@ -10,7 +10,14 @@ npm への公開を GitHub Actions 経由で実行する。
    - **minor**: 新機能追加（後方互換性あり）
    - **patch**: バグ修正、ドキュメント更新
 3. ユーザーに公開するバージョンを確認
-4. `package.json` のバージョンを更新
-5. 変更をコミット & プッシュ
-6. `gh workflow run publish.yml -f version=<version>` を実行
-7. `gh run watch` でワークフローの完了を待機
+4. `gh workflow run publish.yml -f version=<version>` を実行
+5. `gh run watch` でワークフローの完了を待機
+
+## Workflow が自動実行する処理
+
+- `package.json` のバージョン更新
+- ビルド & npm publish
+- git tag 作成 (`v<version>`)
+- コミット & main へ push
+
+ローカルでのコミット・プッシュは不要。workflow が全て処理する。
