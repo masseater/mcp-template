@@ -1,5 +1,5 @@
-import { definePrompt } from "@/mcps/define.ts";
 import { z } from "zod";
+import { definePrompt } from "@/mcps/define.ts";
 
 export const greetingPrompt = definePrompt({
   name: "greeting",

@@ -14,9 +14,15 @@ function createServer() {
     version: "0.0.1",
   });
 
-  tools.forEach((tool) => tool.register(server));
-  resources.forEach((resource) => resource.register(server));
-  prompts.forEach((prompt) => prompt.register(server));
+  for (const tool of tools) {
+    tool.register(server);
+  }
+  for (const resource of resources) {
+    resource.register(server);
+  }
+  for (const prompt of prompts) {
+    prompt.register(server);
+  }
 
   return server;
 }

@@ -7,11 +7,11 @@ import type {
   ResourceTemplate,
   ToolCallback,
 } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";
 import type {
   AnySchema,
   ZodRawShapeCompat,
 } from "@modelcontextprotocol/sdk/server/zod-compat.js";
+import type { ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";
 
 type BaseToolDefinition<
   OutputArgs extends undefined | ZodRawShapeCompat | AnySchema,
@@ -91,7 +91,9 @@ function isTemplateResource(
 
 export function defineTool<
   OutputArgs extends undefined | ZodRawShapeCompat | AnySchema = undefined,
->(tool: ToolDefinitionNoInput<OutputArgs>): ToolDefinitionNoInput<OutputArgs> & {
+>(
+  tool: ToolDefinitionNoInput<OutputArgs>,
+): ToolDefinitionNoInput<OutputArgs> & {
   register: (server: McpServer) => void;
 };
 export function defineTool<
