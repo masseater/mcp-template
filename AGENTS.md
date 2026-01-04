@@ -14,7 +14,7 @@ MCP サーバー開発のための汎用テンプレート
 | MCP SDK | @modelcontextprotocol/sdk |
 | HTTP Framework | Hono |
 | Transport | stdio, HTTP (@hono/mcp) |
-| Build | tsup |
+| Build | bun build |
 | Lint/Format | Biome |
 | Error Handling | neverthrow |
 | Test | bun test |
@@ -89,3 +89,4 @@ bunx @modelcontextprotocol/inspector bun run src/index.ts
 ## Conventions
 
 - stdio モードではコンソール出力禁止（stdin/stdout が MCP 通信に使われるため）
+- **bunx のみサポート**（npx は非対応。Bun 固有 API を使用しているため）
