@@ -1,0 +1,27 @@
+import { z } from "zod";
+import { analyzeText, formatStats } from "@/features/text-stats";
+import { defineTool } from "@/mcps/define";
+
+export const textStatsTool = defineTool({
+  name: "text-stats",
+  title: "Text Statistics",
+  description:
+    "Analyzes text and returns statistics including character count, word count, line count, and paragraph count.",
+  inputSchema: {
+    text: z.string().describe("The text to analyze"),
+  },
+  handler: async ({ text }) => {
+    const result = analyzeText(text);
+
+    if (result.isErr()) {
+      return {
+        isError: true,
+        content: [{ type: "text" as const, text: result.error.message }],
+      };
+    }
+
+    return {
+      content: [{ type: "text" as const, text: formatStats(result.value) }],
+    };
+  },
+});

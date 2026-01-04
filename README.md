@@ -52,3 +52,17 @@ bun run check:fix  # Auto fix
 bun run typecheck  # Type check (tsgo)
 bun run build      # Build for production
 ```
+
+## Publishing
+
+npmへの公開はGitHub Actionsで行います。
+
+1. GitHubリポジトリの **Actions** タブを開く
+2. 左のワークフロー一覧から **Publish to npm** を選択
+3. **Run workflow** をクリック
+4. バージョン番号を入力（例: `0.1.0`）
+5. **Run workflow** を実行
+
+### 必要な設定
+
+- `NPM_TOKEN`: npmのアクセストークンをリポジトリのSecretsに設定
