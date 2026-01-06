@@ -1,61 +1,40 @@
 #!/usr/bin/env bun
-import { StreamableHTTPTransport } from "@hono/mcp";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { Hono } from "hono";
-import { prompts } from "@/definitions/prompts";
-import { resources } from "@/definitions/resources";
-import { tools } from "@/definitions/tools";
+import { parseArgs } from "./cli.ts";
+import { createHttpApp, initHttpConfig } from "./http.ts";
+import { createServer } from "./server.ts";
+import { runStdio } from "./stdio.ts";
 
-function createServer() {
-  const server = new McpServer({
-    name: "mcp-template",
-    version: "0.0.1",
-  });
+const options = parseArgs(process.argv);
 
-  for (const tool of tools) {
-    tool.register(server);
-  }
-  for (const resource of resources) {
-    resource.register(server);
-  }
-  for (const prompt of prompts) {
-    prompt.register(server);
-  }
-
-  return server;
-}
-
-async function runStdio() {
+if (options.http) {
   const server = createServer();
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-}
-
-function createHttpApp() {
-  const app = new Hono();
-  const server = createServer();
-  const transport = new StreamableHTTPTransport();
-
-  app.all("/mcp", async (c) => {
-    if (!server.isConnected()) {
-      await server.connect(transport);
-    }
-    return transport.handleRequest(c);
-  });
-
-  return app;
-}
-
-if (process.env.HTTP === "1") {
-  const app = createHttpApp();
+  let config: ReturnType<typeof initHttpConfig>;
+  try {
+    config = initHttpConfig(options);
+  } catch (e) {
+    console.error(`Error: ${(e as Error).message}`);
+    process.exit(1);
+  }
+  const app = createHttpApp(server, config);
   const httpServer = Bun.serve({
-    port: 0,
+    hostname: config.hostname,
+    port: config.port,
     fetch: app.fetch,
   });
   console.error(
-    `MCP server listening on http://localhost:${httpServer.port}/mcp`,
+    `MCP server listening on http://${config.hostname}:${httpServer.port}/mcp`,
   );
+
+  process.on("SIGINT", () => {
+    config.cleanup();
+    httpServer.stop();
+    process.exit(0);
+  });
+  process.on("SIGTERM", () => {
+    config.cleanup();
+    httpServer.stop();
+    process.exit(0);
+  });
 } else {
   await runStdio();
 }
