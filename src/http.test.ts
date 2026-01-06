@@ -1,11 +1,4 @@
-import {
-  afterAll,
-  beforeAll,
-  describe,
-  expect,
-  mock,
-  test,
-} from "bun:test";
+import { afterAll, beforeAll, describe, expect, mock, test } from "bun:test";
 
 // Suppress console output during tests
 mock.module("node:console", () => ({
@@ -13,8 +6,8 @@ mock.module("node:console", () => ({
   log: () => {},
   warn: () => {},
 }));
-const originalConsoleError = console.error;
 console.error = () => {};
+
 import { createHmac } from "node:crypto";
 import { existsSync, unlinkSync } from "node:fs";
 import {
@@ -26,7 +19,7 @@ import { createHttpApp, initHttpConfig } from "./http.ts";
 import { createServer } from "./server.ts";
 
 const TEST_DB_PATH = "/tmp/mcp-http-e2e-test.db";
-const TEST_KEY = "test-api-key-" + "a".repeat(50);
+const TEST_KEY = `test-api-key-${"a".repeat(50)}`;
 
 const MCP_HEADERS = {
   Accept: "application/json, text/event-stream",
@@ -63,7 +56,10 @@ describe("HTTP E2E Authentication", () => {
     // Initialize config and open key store
     const mcpServer = createServer();
     const config = initHttpConfig({ http: true, insecure: false });
-    keyStore = config.keyStore!;
+    if (!config.keyStore) {
+      throw new Error("keyStore should be initialized in auth mode");
+    }
+    keyStore = config.keyStore;
 
     // Register a valid test key
     const hash = hashKeyWithPepper(TEST_KEY, keyStore.pepper);
