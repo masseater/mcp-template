@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -24,7 +24,7 @@ MCP サーバー開発のための汎用テンプレート
 ```bash
 # Development
 bun run dev              # Start with stdio transport
-bun run dev:http         # Start with HTTP transport
+bun run dev:http         # Start with HTTP transport (insecure)
 
 # Quality
 bun run check            # Lint + format check
@@ -40,25 +40,55 @@ bun test src/features/text-stats/text-stats.test.ts  # Single file
 bun run build            # Build for production
 ```
 
-## Directory Structure
+## CLI Options
+
+| Option | Description |
+|--------|-------------|
+| `--http` | HTTP モードで起動（デフォルトは stdio） |
+| `--insecure` | 認証なしでの HTTP 起動を許可（localhost 限定、開発専用） |
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `HTTP` | - | `1` で HTTP モード起動 |
+| `MCP_AUTH_SQLITE_PATH` | - | SQLite DB パス（指定時のみ認証有効化） |
+| `MCP_HTTP_HOST` | `127.0.0.1` | HTTP バインドホスト |
+| `MCP_HTTP_PORT` | `0` | HTTP ポート（`0` で自動割当） |
+| `MCP_REQUIRE_TLS` | `1` | 非 localhost で HTTP 起動を許可するには `0` に設定 |
+| `MCP_CORS_ORIGIN` | `*` | CORS 許可オリジン |
+
+## Architecture
+
+### Directory Structure
 
 ```
 src/
 ├── index.ts              # Entry point (stdio/HTTP switch)
+├── server.ts             # McpServer instantiation & primitive registration
 ├── definitions/          # MCP primitive definitions (thin wrappers)
-│   ├── define.ts         # define* helpers
-│   ├── tools/
+│   ├── define.ts         # defineTool, defineResource, definePrompt helpers
+│   ├── tools/index.ts    # Tool exports array
 │   ├── resources/
 │   └── prompts/
 └── features/             # Business logic (pure functions, neverthrow)
-    └── <name>/           # Feature directory
+    └── <name>/           # Feature directory with colocated tests
 ```
 
-## Architecture
+### Two-Layer Pattern
 
-The `define*` helpers (`defineTool`, `defineResource`, `definePrompt`) wrap MCP SDK registration with a consistent pattern. Each returns an object with a `.register(server)` method that's called in `src/index.ts`.
+1. **definitions/**: MCP 定義の薄いラッパー。スキーマ定義とレスポンス整形のみ
+2. **features/**: ビジネスロジック。MCP に依存しない純粋関数、`Result<T, E>` を返す
 
-**Separation of concerns**: Complex logic goes in `src/features/` as pure functions returning `Result<T, E>` (neverthrow). MCP definitions in `src/definitions/` are thin wrappers that call feature functions and format responses.
+```
+User Request → definitions/ (schema validation) → features/ (logic) → Response
+```
+
+### Adding New MCP Primitives
+
+1. Create feature logic in `src/features/<name>/<name>.ts` returning `Result<T, E>`
+2. Create definition in `src/definitions/tools/<name>.ts` using `defineTool()`
+3. Export from `src/definitions/tools/index.ts`
 
 ## Debugging with MCP Inspector
 
@@ -90,7 +120,8 @@ bunx @modelcontextprotocol/inspector bun run src/index.ts
 
 GitHub Actions の `Publish to npm` ワークフローで公開。`bun publish` を使用。
 
-## Conventions
+## Critical Conventions
 
-- stdio モードではコンソール出力禁止（stdin/stdout が MCP 通信に使われるため）
+- **stdio モードでは console.log 禁止**（stdin/stdout が MCP 通信に使われる。stderr のみ使用可）
 - **bunx のみサポート**（npx は非対応。Bun 固有 API を使用しているため）
+- **features/ は必ず機能単位のディレクトリを作成**（ファイル直置き禁止）

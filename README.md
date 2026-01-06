@@ -41,17 +41,6 @@ MCP_AUTH_SQLITE_PATH=/path/to/auth.db bunx @r_masseater/mcp-template --http
 | `--http` | HTTP モードで起動（デフォルトは stdio） |
 | `--insecure` | 認証なしでの HTTP 起動を許可（localhost 限定、開発専用） |
 
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `HTTP` | - | `1` で HTTP モード起動（`--http` と同等） |
-| `MCP_AUTH_SQLITE_PATH` | - | SQLite DB ファイルのパス（指定時のみ認証有効化） |
-| `MCP_HTTP_HOST` | `127.0.0.1` | HTTP サーバーのバインドホスト |
-| `MCP_HTTP_PORT` | `0` | HTTP サーバーのポート（`0` で自動割当） |
-| `MCP_REQUIRE_TLS` | `1` | 非 localhost で HTTP 起動を許可するには `0` に設定 |
-| `MCP_CORS_ORIGIN` | `*` | CORS 許可オリジン |
-
 ## Authentication
 
 HTTP モードでは Bearer トークン認証をサポートします。
