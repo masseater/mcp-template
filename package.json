@@ -34,9 +34,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@hono/mcp": "^0.2.4",
+    "@hono/mcp": "^0.2.5",
     "@modelcontextprotocol/sdk": "^1.28.0",
-    "hono": "^4.12.9",
+    "hono": "^4.12.10",
     "neverthrow": "^8.2.0",
     "zod": "^4.3.6"
   },
