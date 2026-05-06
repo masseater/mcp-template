@@ -28,7 +28,7 @@
     "@biomejs/biome": "^2.4.14",
     "@types/bun": "latest",
     "@typescript/native-preview": "^7.0.0-dev.20260308.1",
-    "knip": "^5.86.0"
+    "knip": "^6.12.0"
   },
   "peerDependencies": {
     "typescript": "^5.9.3"
