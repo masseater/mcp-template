@@ -36,7 +36,7 @@
   "dependencies": {
     "@hono/mcp": "^0.3.2",
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "hono": "^4.13.3",
+    "hono": "^4.13.5",
     "neverthrow": "^8.2.0",
     "zod": "^4.4.3"
   },
