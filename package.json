@@ -38,7 +38,7 @@
     "@modelcontextprotocol/sdk": "^1.30.0",
     "hono": "^4.13.7",
     "neverthrow": "^8.2.0",
-    "zod": "^4.5.4"
+    "zod": "^4.6.5"
   },
   "keywords": [
     "mcp",
