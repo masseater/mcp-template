@@ -10,6 +10,7 @@
   "labels": ["dependencies"],
   "prConcurrentLimit": 10,
   "rangeStrategy": "bump",
+  "ignoreTests": true,
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
